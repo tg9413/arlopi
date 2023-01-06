@@ -63,3 +63,8 @@ Also huge shoutout to the teslausb project, this project is inspired by the wond
 
 
 
+****
+<br>
+Buy me a beer or put some change in the jar to help me get some more Pi to test :) 
+
+[![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=J58W48P8U345G)

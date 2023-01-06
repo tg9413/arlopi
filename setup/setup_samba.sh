@@ -1,6 +1,6 @@
 #!/bin/bash
+mkdir -p /share/arlo
 apt-get install samba -y
-
 echo "[arlo]" >> /etc/samba/smb.conf
 echo "browseable = yes" >> /etc/samba/smb.conf
 echo "path = /share/arlo" >> /etc/samba/smb.conf

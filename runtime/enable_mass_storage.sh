@@ -2,10 +2,8 @@
 usb_gadget="/sys/kernel/config/usb_gadget"
 gadget="arlo"
 gadget_root="$usb_gadget/$gadget"
-img_file="/arlo.img"
-manufacturer="Sandisk"
-product="pidrive"
-max_power=100 #500 for pi4, 200 for piz2
+img_file="/arlo.bin"
+max_power=100 #500 for pi4, 200 for piz2, 100 for piz
 lang=0x409
 cfg=c
 
@@ -21,10 +19,10 @@ echo 0x0200 > "$gadget_root/bcdUSB"    # USB 2.0
 mkdir -p "$gadget_root/strings/$lang"
 mkdir -p "$gadget_root/configs/$cfg.1/strings/$lang"
 
-echo "arlo-Pi-$(grep Serial /proc/cpuinfo | awk '{print $3}')" > "$gadget_root/strings/$lang/serialnumber"
-echo "$manufacturer" > "$gadget_root/strings/$lang/manufacturer"
-echo "$product" > "$gadget_root/strings/$lang/product"
-echo "Arlo-Pi Config" > "$gadget_root/configs/$cfg.1/strings/$lang/configuration"
+echo "$(grep Serial /proc/cpuinfo | awk '{print $3}')" > "$gadget_root/strings/$lang/serialnumber"
+echo "TDD" > "$gadget_root/strings/$lang/manufacturer"
+echo "Composite Drive" > "$gadget_root/strings/$lang/product"
+echo "Pi Zero W" > "$gadget_root/configs/$cfg.1/strings/$lang/configuration"
 echo "$max_power" > "$gadget_root/configs/$cfg.1/MaxPower"
 
 mkdir -p "$gadget_root/functions/mass_storage.0"

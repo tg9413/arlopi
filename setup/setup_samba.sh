@@ -1,5 +1,6 @@
 #!/bin/bash
 apt-get install samba winbind -y
+sudo mkdir -p /share/arlo
 
 cat <<- EOF > /etc/samba/smb.conf
 	[global]
@@ -20,15 +21,14 @@ cat <<- EOF > /etc/samba/smb.conf
 	   map to guest = bad user
 	   min protocol = SMB2
 	   usershare allow guests = yes
-           unix extensions = no
-           wide links = yes
+       unix extensions = no
+       wide links = yes
 	[Arlo]
 	   read only = no
 	   locking = no
        browseable = yes
 	   path = /share/arlo
 	   create mask = 777
-	   admin users = pi
 	EOF
 
 systemctl restart smbd.service

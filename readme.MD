@@ -95,9 +95,41 @@ sudo smbpasswd -a pi
 7. Now you can add the Samba mount other service on your home network to expose the videos. Easist method is some media server like plex / jellyfin, HomeAssistant is also an option but that in itself is another whole topic
 
 
+****
 
+### HomeAssistant Integration to replace Arlo App:
+<br>
+1. Edit homeassistant configuration.yaml, add the following code
+
+```
+#Check if automation is already include, if not add the following line to include automation
+automation: !include automations.yaml
+
+#This is the line needed
+#replace username, password, and ip address with your setup, user/pass is the Samba user and pass setup in the last step
+shell_command:
+  mount_arlo_folder: mkdir -p /media/Arlo; mount -t cifs -o vers=3.0,noserverino,username=pi,password=SomePassWordHere,domain=WORKGROUP //192.168.1.244/Arlo/arlo /media/Arlo
+```
+<br>
+2. Edit automation.yaml, add the following
+
+```
+- id: "mount_arlo"
+  alias: Mount Arlo Samba
+  description: Mount for Arlo Clips
+  trigger:
+    - platform: homeassistant
+      event: start
+  condition: []
+  action:
+    - service: shell_command.mount_arlo_folder
+      data: {}
+```
+
+3. Restart your Homeassistant, now you should see the Arlo folder in your media player
 
 ****
+
 <br>
 Money jar to save up for an RPi4 or some beer in the lonely night :)
 

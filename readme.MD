@@ -10,14 +10,15 @@ This project is aim at giving the legacy users some ways to access the video cli
 ### Hardware Requirement:
     
     . Raspberry Pi Zero W 
-    . Micro B to A USB cable, with Data 
-    . Power supply for Raspberry Pi Zero W, and optionally a case
-    . 64GB Micro SD Card
+    . Micro B to A USB cable, with Data. Pleae make sure the cable has data capability, a lot of the micro b cable come with cellphones / gadgets is charging only.
+    . Power supply for Raspberry Pi Zero W, and optionally a case. (power only needed till everything is setup)
+    . 64GB Micro SD Card, or bigger if you have the spare. It is not going to help tho, at least for now.
 
 ### What's working so far
 ```
  . Video captured on the camera will be saved to local storage and save on host device
  . Host device have a samba server that will expose the video clips
+ . Arlo will auto truncate clips when storage reaches 80% (24GB in this case), clips store on the SAMBA has 14 days retention and cleans at midnight. User can adjust retention time by editing RETENTION_DURATION in /home/pi/arlopi/runtime/cleanup_clips.sh
 ```
 
 ### What's not ideal
@@ -25,8 +26,6 @@ This project is aim at giving the legacy users some ways to access the video cli
  . There is 1min sync interval in between when the clip generated till available on Samba. This is to avoid potential data corruption with having two source accessing the same mount.
  
  . Same reason above, so we only expose 30GB out of the 64GB on the SD to Arlo, and rest act as sync backup for Samba to read from
- 
- . Arlo will auto truncate clips when storage reaches 80% (24GB in this case), host machine itself doesn't have a mechanism to auto truncate the sync clips yet. This will come later when the core operation is stable. Advanced users can create their own cron scripts either on host or remote to deal with the truncation for now
  
  . Arlo base station is very senstive about flash drive selection, currently I only found 30GB configuration works. Other sizing options will have to spend some time into figure out why certain configuration doesn't get registered with the base station
  
@@ -94,6 +93,9 @@ sudo smbpasswd -a pi
 
 7. Now you can add the Samba mount other service on your home network to expose the videos. Easist method is some media server like plex / jellyfin, HomeAssistant is also an option but that in itself is another whole topic
 
+8. Once everything is running as expected, you can go ahead unplug the power cable from the pi zero ( the one on the edge ). Arlo base station itself is enough to power the pi.
+
+9. For Advanced users, the synced clips are stored in /share/arlo/. The pi os itself is basically a linux system with apt package management, you can setup your own way of managing / exposing the clips such as sync/clone to your NAS, or push it to some cloud backup storage. Due to this will likely varies wildly depends on one's setup and requirement, this project probably will just focus on a more self contained solution for now. Feel free to make modification as needed :) Thank you for the understanding if certain obvious feature are lacking such as syncing to remote NAS.
 
 ****
 
